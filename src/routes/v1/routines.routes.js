@@ -20,9 +20,23 @@ let routines = [
     }
 ];
 
-// Rutas básicas (Stubs)
-router.get('/', (req, res) => { });
-router.get('/:id', (req, res) => { });
+// GET /v1/routines (Obtener todas las rutinas)
+router.get('/', (req, res) => {
+    res.status(200).json(routines);
+});
+
+// GET /v1/routines/:id (Consultar rutina específica por ID)
+router.get('/:id', (req, res) => {
+    const { id } = req.params;
+    const routine = routines.find(r => r.id === Number(id));
+
+    if (!routine) {
+        return res.status(404).json({ error: 'Rutina no encontrada' });
+    }
+
+    res.status(200).json(routine);
+});
+
 router.post('/', (req, res) => { });
 router.put('/:id', (req, res) => { });
 router.delete('/:id', (req, res) => { });
