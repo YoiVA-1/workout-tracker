@@ -13,9 +13,47 @@ let users = [
   }
 ];
 
-// Rutas básicas (Stubs)
-router.get('/', (req, res) => {});
-router.get('/:id', (req, res) => {});
+// GET /v1/users
+router.get('/', (req, res) => {
+  res.status(200).json(users);
+});
+
+// GET /v1/users/:id
+router.get('/:id', (req, res) => {
+  const { id } = req.params;
+  const user = users.find(u => u.id === id);
+
+  if (!user) {
+    return res.status(404).json({ error: 'Usuario no encontrado' });
+  }
+
+  res.status(200).json(user);
+});
+
+// GET /v1/users/:id/routines
+router.get('/:id/routines', (req, res) => {
+  const { id } = req.params;
+  const user = users.find(u => u.id === id);
+
+  if (!user) {
+    return res.status(404).json({ error: 'Usuario no encontrado' });
+  }
+
+  res.status(200).json([]);
+});
+
+// GET /v1/users/:id/workout-logs
+router.get('/:id/workout-logs', (req, res) => {
+  const { id } = req.params;
+  const user = users.find(u => u.id === id);
+
+  if (!user) {
+    return res.status(404).json({ error: 'Usuario no encontrado' });
+  }
+
+  res.status(200).json([]);
+});
+
 router.post('/', (req, res) => {});
 router.put('/:id', (req, res) => {});
 router.delete('/:id', (req, res) => {});
