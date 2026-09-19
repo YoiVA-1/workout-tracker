@@ -15,17 +15,9 @@ let users = [
 
 // GET /v1/users
 router.get('/', (req, res) => {
-  const { search } = req.query;
-  let result = users;
-
-  if (search) {
-    result = result.filter(u =>
-      u.name.toLowerCase().includes(search.toLowerCase())
-    );
-  }
-
-  res.status(200).json(result);
+  res.status(200).json(users);
 });
+
 // GET /v1/users/:id
 router.get('/:id', (req, res) => {
   const { id } = req.params;
