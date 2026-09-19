@@ -9,10 +9,35 @@ let categories = [
     { id: 4, name: "Cardio", description: "Ejercicios de alta intensidad cardiovascular" }
 ];
 
-// Rutas básicas (Stubs)
-router.get('/', (req, res) => { });
-router.get('/:id', (req, res) => { });
-router.get('/:id/exercises', (req, res) => { });
+// GET /v1/categories (Listar todas las categorías)
+router.get('/', (req, res) => {
+    res.status(200).json(categories);
+});
+
+// GET /v1/categories/:id (Obtener detalles de una categoría específica)
+router.get('/:id', (req, res) => {
+    const { id } = req.params;
+    const category = categories.find(c => c.id === Number(id));
+
+    if (!category) {
+        return res.status(404).json({ error: 'Categoría no encontrada' });
+    }
+
+    res.status(200).json(category);
+});
+
+// GET /v1/categories/:id/exercises (Filtra los ejercicios de una categoría)
+router.get('/:id/exercises', (req, res) => {
+    const { id } = req.params;
+    const categoryExists = categories.some(c => c.id === Number(id));
+
+    if (!categoryExists) {
+        return res.status(404).json({ error: 'Categoría no encontrada' });
+    }
+
+    res.status(200).json([]);
+});
+
 router.post('/', (req, res) => { });
 router.put('/:id', (req, res) => { });
 router.delete('/:id', (req, res) => { });
