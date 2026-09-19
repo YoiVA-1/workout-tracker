@@ -74,7 +74,30 @@ router.post('/', (req, res) => {
   res.status(201).json(newUser);
 });
 
-router.put('/:id', (req, res) => { });
-router.delete('/:id', (req, res) => { });
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, email, weight_kg, height_cm } = req.body;
+
+  const index = users.findIndex(u => u.id === id);
+  if (index === -1) {
+    return res.status(404).json({ error: 'Usuario no encontrado' });
+  }
+
+  if (!name || !email) {
+    return res.status(400).json({ error: 'Name y email son requeridos' });
+  }
+
+  users[index] = {
+    ...users[index],
+    name,
+    email,
+    weight_kg: weight_kg !== undefined ? weight_kg : users[index].weight_kg,
+    height_cm: height_cm !== undefined ? height_cm : users[index].height_cm
+  };
+
+  res.status(200).json(users[index]);
+});
+
+router.delete('/:id', (req, res) => {});
 
 module.exports = router;
