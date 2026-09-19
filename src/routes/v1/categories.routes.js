@@ -38,7 +38,23 @@ router.get('/:id/exercises', (req, res) => {
     res.status(200).json([]);
 });
 
-router.post('/', (req, res) => { });
+router.post('/', (req, res) => {
+    const { name, description } = req.body;
+
+    if (!name) {
+        return res.status(400).json({ error: 'El nombre de la categoría es obligatorio' });
+    }
+
+    const newCategory = {
+        id: Date.now(),
+        name,
+        description: description || ''
+    };
+
+    categories.push(newCategory);
+    res.status(201).json(newCategory);
+});
+
 router.put('/:id', (req, res) => { });
 router.delete('/:id', (req, res) => { });
 
