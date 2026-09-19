@@ -20,3 +20,12 @@
 - **POST /v1/workout-logs**: Registrar una nueva sesión de entrenamiento.
 - **PUT /v1/workout-logs/:id**: Modificar una sesión registrada.
 - **DELETE /v1/workout-logs/:id**: Eliminar una sesión del historial.
+
+## Endpoints del Recurso Categorías (`/v1/categories`)
+
+- **GET /v1/categories**: Listar todas las categorías (soporta `?search=`).
+- **GET /v1/categories/:id**: Detalles de una categoría específica por ID.
+- **GET /v1/categories/:id/exercises**: Filtra los ejercicios que pertenecen a una categoría.
+- **POST /v1/categories**: Crear una nueva categoría.
+- **PUT /v1/categories/:id**: Actualizar una categoría existente.
+- **DELETE /v1/categories/:id**: Eliminar una categoría del sistema.
