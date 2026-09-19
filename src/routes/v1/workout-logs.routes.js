@@ -24,7 +24,14 @@ let workoutLogs = [
 
 // GET /v1/workout-logs (Historial general)
 router.get('/', (req, res) => {
-    res.status(200).json(workoutLogs);
+    const { user_id } = req.query;
+    let result = workoutLogs;
+
+    if (user_id) {
+        result = result.filter(w => w.user_id === Number(user_id));
+    }
+
+    res.status(200).json(result);
 });
 
 // GET /v1/workout-logs/:id (Consultar registro específico)
