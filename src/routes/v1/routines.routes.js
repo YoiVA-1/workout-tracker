@@ -22,7 +22,14 @@ let routines = [
 
 // GET /v1/routines (Obtener todas las rutinas)
 router.get('/', (req, res) => {
-    res.status(200).json(routines);
+    const { user_id } = req.query;
+    let result = routines;
+
+    if (user_id) {
+        result = result.filter(r => r.user_id === Number(user_id));
+    }
+
+    res.status(200).json(result);
 });
 
 // GET /v1/routines/:id (Consultar rutina específica por ID)
