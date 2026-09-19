@@ -15,12 +15,12 @@ let exercises = [
     }
 ];
 
-// GET /v1/exercises (Listar todo el catálogo)
+
 router.get('/', (req, res) => {
     res.status(200).json(exercises);
 });
 
-// GET /v1/exercises/:id (Detalle de un ejercicio específico)
+
 router.get('/:id', (req, res) => {
     const { id } = req.params;
     const exercise = exercises.find(e => e.id === Number(id));
@@ -32,7 +32,29 @@ router.get('/:id', (req, res) => {
     res.status(200).json(exercise);
 });
 
-router.post('/', (req, res) => { });
+router.post('/', (req, res) => {
+    const { name, description, category, equipment_needed } = req.body;
+
+    if (!name) {
+        return res.status(400).json({ error: 'El nombre del ejercicio es obligatorio' });
+    }
+
+    const newExercise = {
+        id: Date.now(),
+        name,
+        description: description || '',
+        category: category || null,
+        equipment_needed: equipment_needed || ''
+    };
+
+    exercises.push(newExercise);
+    res.status(201).json(newExercise);
+});
+
+router.put('/:id', (req, res) => { });
+router.delete('/:id', (req, res) => { });
+
+module.exports = router;
 router.put('/:id', (req, res) => { });
 router.delete('/:id', (req, res) => { });
 
