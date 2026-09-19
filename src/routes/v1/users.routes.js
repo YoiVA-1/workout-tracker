@@ -54,8 +54,27 @@ router.get('/:id/workout-logs', (req, res) => {
   res.status(200).json([]);
 });
 
-router.post('/', (req, res) => {});
-router.put('/:id', (req, res) => {});
-router.delete('/:id', (req, res) => {});
+router.post('/', (req, res) => {
+  const { name, email, weight_kg, height_cm } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({ error: 'Name y email son requeridos' });
+  }
+
+  const newUser = {
+    id: `${Date.now()}`,
+    name,
+    email,
+    weight_kg: weight_kg || null,
+    height_cm: height_cm || null,
+    created_at: new Date().toISOString()
+  };
+
+  users.push(newUser);
+  res.status(201).json(newUser);
+});
+
+router.put('/:id', (req, res) => { });
+router.delete('/:id', (req, res) => { });
 
 module.exports = router;
