@@ -73,6 +73,16 @@ router.put('/:id', (req, res) => {
     res.status(200).json(routines[index]);
 });
 
-router.delete('/:id', (req, res) => { });
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+    const index = routines.findIndex(r => r.id === Number(id));
+
+    if (index === -1) {
+        return res.status(404).json({ error: 'Rutina no encontrada' });
+    }
+
+    routines.splice(index, 1);
+    res.status(200).json({ message: 'Rutina eliminada correctamente' });
+});
 
 module.exports = router;
