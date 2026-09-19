@@ -11,9 +11,17 @@ let categories = [
 
 // GET /v1/categories (Listar todas las categorías)
 router.get('/', (req, res) => {
-    res.status(200).json(categories);
-});
+    const { search } = req.query;
+    let result = categories;
 
+    if (search) {
+        result = result.filter(c =>
+            c.name.toLowerCase().includes(search.toLowerCase())
+        );
+    }
+
+    res.status(200).json(result);
+});
 // GET /v1/categories/:id (Obtener detalles de una categoría específica)
 router.get('/:id', (req, res) => {
     const { id } = req.params;
