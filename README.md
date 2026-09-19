@@ -12,3 +12,11 @@
 - **POST /v1/routines**: Crear una nueva plantilla de rutina.
 - **PUT /v1/routines/:id**: Modificar una rutina existente.
 - **DELETE /v1/routines/:id**: Eliminar una rutina del sistema.-
+
+## Endpoints del Recurso Sesiones de Entrenamiento (`/v1/workout-logs`)
+
+- **GET /v1/workout-logs**: Historial general de entrenamientos (soporta `?user_id=`).
+- **GET /v1/workout-logs/:id**: Registro de un entrenamiento específico por ID.
+- **POST /v1/workout-logs**: Registrar una nueva sesión de entrenamiento.
+- **PUT /v1/workout-logs/:id**: Modificar una sesión registrada.
+- **DELETE /v1/workout-logs/:id**: Eliminar una sesión del historial.
