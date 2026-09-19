@@ -22,9 +22,23 @@ let workoutLogs = [
     }
 ];
 
-// Rutas básicas (Stubs)
-router.get('/', (req, res) => { });
-router.get('/:id', (req, res) => { });
+// GET /v1/workout-logs (Historial general)
+router.get('/', (req, res) => {
+    res.status(200).json(workoutLogs);
+});
+
+// GET /v1/workout-logs/:id (Consultar registro específico)
+router.get('/:id', (req, res) => {
+    const { id } = req.params;
+    const log = workoutLogs.find(w => w.id === Number(id));
+
+    if (!log) {
+        return res.status(404).json({ error: 'Sesión de entrenamiento no encontrada' });
+    }
+
+    res.status(200).json(log);
+});
+
 router.post('/', (req, res) => { });
 router.put('/:id', (req, res) => { });
 router.delete('/:id', (req, res) => { });
