@@ -37,7 +37,26 @@ router.get('/:id', (req, res) => {
     res.status(200).json(routine);
 });
 
-router.post('/', (req, res) => { });
+router.post('/', (req, res) => {
+    const { user_id, name, description, exercises } = req.body;
+
+    if (!user_id || !name) {
+        return res.status(400).json({ error: 'user_id y name son obligatorios' });
+    }
+
+    const newRoutine = {
+        id: Date.now(),
+        user_id,
+        name,
+        description: description || '',
+        exercises: exercises || [],
+        created_at: new Date().toISOString()
+    };
+
+    routines.push(newRoutine);
+    res.status(201).json(newRoutine);
+});
+
 router.put('/:id', (req, res) => { });
 router.delete('/:id', (req, res) => { });
 
