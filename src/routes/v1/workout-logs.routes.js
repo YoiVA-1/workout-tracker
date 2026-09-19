@@ -39,7 +39,28 @@ router.get('/:id', (req, res) => {
     res.status(200).json(log);
 });
 
-router.post('/', (req, res) => { });
+router.post('/', (req, res) => {
+    const { user_id, routine_id, duration_minutes, calories_burned, notes, details } = req.body;
+
+    if (!user_id || !routine_id) {
+        return res.status(400).json({ error: 'user_id y routine_id son requeridos' });
+    }
+
+    const newLog = {
+        id: Date.now(),
+        user_id,
+        routine_id,
+        date: new Date().toISOString(),
+        duration_minutes: duration_minutes || 0,
+        calories_burned: calories_burned || 0,
+        notes: notes || '',
+        details: details || []
+    };
+
+    workoutLogs.push(newLog);
+    res.status(201).json(newLog);
+});
+
 router.put('/:id', (req, res) => { });
 router.delete('/:id', (req, res) => { });
 
