@@ -17,9 +17,23 @@ let exercises = [
 
 
 router.get('/', (req, res) => {
-    res.status(200).json(exercises);
-});
+    const { search, category } = req.query;
+    let result = exercises;
 
+    if (search) {
+        result = result.filter(e =>
+            e.name.toLowerCase().includes(search.toLowerCase())
+        );
+    }
+
+    if (category) {
+        result = result.filter(e =>
+            e.category && e.category.name.toLowerCase() === category.toLowerCase()
+        );
+    }
+
+    res.status(200).json(result);
+});
 
 router.get('/:id', (req, res) => {
     const { id } = req.params;
