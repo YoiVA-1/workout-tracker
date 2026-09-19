@@ -70,6 +70,16 @@ router.put('/:id', (req, res) => {
     res.status(200).json(exercises[index]);
 });
 
-router.delete('/:id', (req, res) => { });
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+    const index = exercises.findIndex(e => e.id === Number(id));
+
+    if (index === -1) {
+        return res.status(404).json({ error: 'Ejercicio no encontrado' });
+    }
+
+    exercises.splice(index, 1);
+    res.status(200).json({ message: 'Ejercicio eliminado correctamente' });
+});
 
 module.exports = router;
