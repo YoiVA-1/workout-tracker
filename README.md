@@ -1,3 +1,13 @@
+## Endpoints del Recurso Usuarios (`/v1/users`)
+
+- **GET /v1/users**: Lista general de usuarios (soporta `?search=`).
+- **GET /v1/users/:id**: Información de un usuario por ID.
+- **GET /v1/users/:id/routines**: Rutinas del usuario.
+- **GET /v1/users/:id/workout-logs**: Historial de entrenamientos del usuario.
+- **POST /v1/users**: Registro de nuevo usuario.
+- **PUT /v1/users/:id**: Actualización completa.
+- **DELETE /v1/users/:id**: Eliminación de usuario.
+
 ## Endpoints del Recurso Ejercicios (`/v1/exercises`)
 
 - **GET /v1/exercises**: Catálogo general de ejercicios (soporta `?search=` y `?category=`).
