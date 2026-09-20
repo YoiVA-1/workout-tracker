@@ -1,11 +1,40 @@
 const express = require('express');
-const router = express.Router();
+const app = express();
 
+const PORT = process.env.PORT || 3000;
 
-// importar versiones de rutas 
-const v1Routes =require('./v1');
+// Middlewares globales
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Configurar rutas versionadas 
-router.use('/v1', v1Routes);
+// Importación de rutas desde src/routes/v1/
+const usersRouter = require('./src/routes/v1/users.routes');
+const exercisesRouter = require('./src/routes/v1/exercises.routes');
+const routinesRouter = require('./src/routes/v1/routines.routes');
+const workoutLogsRouter = require('./src/routes/v1/workout-logs.routes');
+const categoriesRouter = require('./src/routes/v1/categories.routes');
 
-module.exports = router;
+// Montaje de rutas
+app.use('/v1/users', usersRouter);
+app.use('/v1/exercises', exercisesRouter);
+app.use('/v1/routines', routinesRouter);
+app.use('/v1/workout-logs', workoutLogsRouter);
+app.use('/v1/categories', categoriesRouter);
+
+// Ruta raíz
+app.get('/', (req, res) => {
+    res.status(200).json({
+        message: 'API REST Fitness Tracker activa',
+        version: '1.0.0'
+    });
+});
+
+// Manejo 404
+app.use((req, res) => {
+    res.status(404).json({ error: 'Ruta no encontrada' });
+});
+
+// Iniciar servidor
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});
