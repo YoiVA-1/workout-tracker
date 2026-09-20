@@ -39,3 +39,10 @@
 - **POST /v1/categories**: Crear una nueva categoría.
 - **PUT /v1/categories/:id**: Actualizar una categoría existente.
 - **DELETE /v1/categories/:id**: Eliminar una categoría del sistema.
+
+
+- **PATCH /v1/users/:id**: Actualización parcial de usuario.
+- **PATCH /v1/exercises/:id**: Actualización parcial de ejercicio.
+- **PATCH /v1/routines/:id**: Actualización parcial de rutina.
+- **PATCH /v1/workout-logs/:id**: Actualización parcial de entrenamiento.
+- **PATCH /v1/categories/:id**: Actualización parcial de categoría.

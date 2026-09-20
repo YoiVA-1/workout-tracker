@@ -1,15 +1,21 @@
-const { Router } = require('express');
-const router = Router();
+const express = require('express');
+const router = express.Router();
 
 // Estado en memoria (simulación)
 let categories = [
-    { id: 1, name: "Pecho", description: "Ejercicios para pectoral mayor y menor" },
-    { id: 2, name: "Espalda", description: "Ejercicios para dorsal ancho y trapecios" },
-    { id: 3, name: "Piernas", description: "Ejercicios para cuadríceps e isquiotibiales" },
-    { id: 4, name: "Cardio", description: "Ejercicios de alta intensidad cardiovascular" }
+    { id: "c1-4b91-8d36-dc1c6ef27611", name: "Pecho", description: "Ejercicios para pectoral mayor y menor" },
+    { id: "c2-4b91-8d36-dc1c6ef27611", name: "Espalda", description: "Ejercicios para dorsal ancho y trapecios" },
+    { id: "c3-4b91-8d36-dc1c6ef27611", name: "Piernas", description: "Ejercicios para cuadríceps e isquiotibiales" },
+    { id: "c4-4b91-8d36-dc1c6ef27611", name: "Cardio", description: "Ejercicios de alta intensidad cardiovascular" }
 ];
 
-// GET /v1/categories (Listar todas las categorías)
+// Cabeceras HTTP
+router.use((req, res, next) => {
+    res.set('X-API-Version', '1.0.0');
+    next();
+});
+
+// GET /v1/categories
 router.get('/', (req, res) => {
     const { search } = req.query;
     let result = categories;
@@ -22,10 +28,11 @@ router.get('/', (req, res) => {
 
     res.status(200).json(result);
 });
-// GET /v1/categories/:id (Obtener detalles de una categoría específica)
+
+// GET /v1/categories/:id
 router.get('/:id', (req, res) => {
     const { id } = req.params;
-    const category = categories.find(c => c.id === Number(id));
+    const category = categories.find(c => c.id === id);
 
     if (!category) {
         return res.status(404).json({ error: 'Categoría no encontrada' });
@@ -34,10 +41,10 @@ router.get('/:id', (req, res) => {
     res.status(200).json(category);
 });
 
-// GET /v1/categories/:id/exercises (Filtra los ejercicios de una categoría)
+// GET /v1/categories/:id/exercises
 router.get('/:id/exercises', (req, res) => {
     const { id } = req.params;
-    const categoryExists = categories.some(c => c.id === Number(id));
+    const categoryExists = categories.some(c => c.id === id);
 
     if (!categoryExists) {
         return res.status(404).json({ error: 'Categoría no encontrada' });
@@ -46,6 +53,7 @@ router.get('/:id/exercises', (req, res) => {
     res.status(200).json([]);
 });
 
+// POST /v1/categories
 router.post('/', (req, res) => {
     const { name, description } = req.body;
 
@@ -54,7 +62,7 @@ router.post('/', (req, res) => {
     }
 
     const newCategory = {
-        id: Date.now(),
+        id: `${Date.now()}`,
         name,
         description: description || ''
     };
@@ -63,9 +71,33 @@ router.post('/', (req, res) => {
     res.status(201).json(newCategory);
 });
 
+// PUT /v1/categories/:id
 router.put('/:id', (req, res) => {
     const { id } = req.params;
-    const index = categories.findIndex(c => c.id === Number(id));
+    const { name, description } = req.body;
+
+    const index = categories.findIndex(c => c.id === id);
+    if (index === -1) {
+        return res.status(404).json({ error: 'Categoría no encontrada' });
+    }
+
+    if (!name || !description) {
+        return res.status(400).json({ error: 'Name y description son obligatorios para PUT' });
+    }
+
+    categories[index] = {
+        ...categories[index],
+        name,
+        description
+    };
+
+    res.status(200).json(categories[index]);
+});
+
+// PATCH /v1/categories/:id
+router.patch('/:id', (req, res) => {
+    const { id } = req.params;
+    const index = categories.findIndex(c => c.id === id);
 
     if (index === -1) {
         return res.status(404).json({ error: 'Categoría no encontrada' });
@@ -79,16 +111,17 @@ router.put('/:id', (req, res) => {
     res.status(200).json(categories[index]);
 });
 
+// DELETE /v1/categories/:id
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
-    const index = categories.findIndex(c => c.id === Number(id));
+    const index = categories.findIndex(c => c.id === id);
 
     if (index === -1) {
         return res.status(404).json({ error: 'Categoría no encontrada' });
     }
 
     categories.splice(index, 1);
-    res.status(200).json({ message: 'Categoría eliminada correctamente' });
+    res.status(204).send();
 });
 
 module.exports = router;

@@ -13,6 +13,12 @@ let users = [
   }
 ];
 
+// Cabeceras HTTP
+router.use((req, res, next) => {
+  res.set('X-API-Version', '1.0.0');
+  next();
+});
+
 // GET /v1/users
 router.get('/', (req, res) => {
   const { search } = req.query;
@@ -63,6 +69,7 @@ router.get('/:id/workout-logs', (req, res) => {
   res.status(200).json([]);
 });
 
+// POST /v1/users
 router.post('/', (req, res) => {
   const { name, email, weight_kg, height_cm } = req.body;
 
@@ -83,6 +90,7 @@ router.post('/', (req, res) => {
   res.status(201).json(newUser);
 });
 
+// PUT /v1/users/:id (Actualización COMPLETA)
 router.put('/:id', (req, res) => {
   const { id } = req.params;
   const { name, email, weight_kg, height_cm } = req.body;
@@ -107,6 +115,24 @@ router.put('/:id', (req, res) => {
   res.status(200).json(users[index]);
 });
 
+// PATCH /v1/users/:id (Actualización PARCIAL)
+router.patch('/:id', (req, res) => {
+  const { id } = req.params;
+  const index = users.findIndex(u => u.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ error: 'Usuario no encontrado' });
+  }
+
+  users[index] = {
+    ...users[index],
+    ...req.body
+  };
+
+  res.status(200).json(users[index]);
+});
+
+// DELETE /v1/users/:id
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
   const index = users.findIndex(u => u.id === id);
@@ -115,8 +141,8 @@ router.delete('/:id', (req, res) => {
     return res.status(404).json({ error: 'Usuario no encontrado' });
   }
 
-  const deletedUser = users.splice(index, 1);
-  res.status(200).json({ deleted: deletedUser[0].id });
+  users.splice(index, 1);
+  res.status(204).send();
 });
 
 module.exports = router;
