@@ -1,21 +1,27 @@
-const { Router } = require('express');
-const router = Router();
+const express = require('express');
+const router = express.Router();
 
 // Estado en memoria (simulación)
 let exercises = [
     {
-        id: 101,
+        id: "e101-4b91-8d36-dc1c6ef27611",
         name: "Press de Banca Plano",
         description: "Ejercicio compuesto enfocado en el desarrollo del pectoral mayor y tríceps.",
         category: {
-            id: 1,
+            id: "c1-4b91-8d36-dc1c6ef27611",
             name: "Pecho"
         },
         equipment_needed: "Barra y discos"
     }
 ];
 
+// Cabeceras HTTP
+router.use((req, res, next) => {
+    res.set('X-API-Version', '1.0.0');
+    next();
+});
 
+// GET /v1/exercises
 router.get('/', (req, res) => {
     const { search, category } = req.query;
     let result = exercises;
@@ -35,9 +41,10 @@ router.get('/', (req, res) => {
     res.status(200).json(result);
 });
 
+// GET /v1/exercises/:id
 router.get('/:id', (req, res) => {
     const { id } = req.params;
-    const exercise = exercises.find(e => e.id === Number(id));
+    const exercise = exercises.find(e => e.id === id);
 
     if (!exercise) {
         return res.status(404).json({ error: 'Ejercicio no encontrado' });
@@ -46,6 +53,7 @@ router.get('/:id', (req, res) => {
     res.status(200).json(exercise);
 });
 
+// POST /v1/exercises
 router.post('/', (req, res) => {
     const { name, description, category, equipment_needed } = req.body;
 
@@ -54,7 +62,7 @@ router.post('/', (req, res) => {
     }
 
     const newExercise = {
-        id: Date.now(),
+        id: `${Date.now()}`,
         name,
         description: description || '',
         category: category || null,
@@ -65,12 +73,35 @@ router.post('/', (req, res) => {
     res.status(201).json(newExercise);
 });
 
-// ... (mantiene los métodos GET y POST)
-
-// PUT /v1/exercises/:id (Actualizar datos de un ejercicio)
+// PUT /v1/exercises/:id
 router.put('/:id', (req, res) => {
     const { id } = req.params;
-    const index = exercises.findIndex(e => e.id === Number(id));
+    const { name, description, category, equipment_needed } = req.body;
+
+    const index = exercises.findIndex(e => e.id === id);
+    if (index === -1) {
+        return res.status(404).json({ error: 'Ejercicio no encontrado' });
+    }
+
+    if (!name || !description || !equipment_needed) {
+        return res.status(400).json({ error: 'Name, description y equipment_needed son requeridos para PUT' });
+    }
+
+    exercises[index] = {
+        ...exercises[index],
+        name,
+        description,
+        category: category !== undefined ? category : exercises[index].category,
+        equipment_needed
+    };
+
+    res.status(200).json(exercises[index]);
+});
+
+// PATCH /v1/exercises/:id
+router.patch('/:id', (req, res) => {
+    const { id } = req.params;
+    const index = exercises.findIndex(e => e.id === id);
 
     if (index === -1) {
         return res.status(404).json({ error: 'Ejercicio no encontrado' });
@@ -84,16 +115,17 @@ router.put('/:id', (req, res) => {
     res.status(200).json(exercises[index]);
 });
 
+// DELETE /v1/exercises/:id
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
-    const index = exercises.findIndex(e => e.id === Number(id));
+    const index = exercises.findIndex(e => e.id === id);
 
     if (index === -1) {
         return res.status(404).json({ error: 'Ejercicio no encontrado' });
     }
 
     exercises.splice(index, 1);
-    res.status(200).json({ message: 'Ejercicio eliminado correctamente' });
+    res.status(204).send();
 });
 
 module.exports = router;
