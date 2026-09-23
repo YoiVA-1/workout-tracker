@@ -3,10 +3,10 @@ const router = express.Router();
 
 // Estado en memoria (simulación)
 let categories = [
-    { id: "c1-4b91-8d36-dc1c6ef27611", name: "Pecho", description: "Ejercicios para pectoral mayor y menor" },
-    { id: "c2-4b91-8d36-dc1c6ef27611", name: "Espalda", description: "Ejercicios para dorsal ancho y trapecios" },
-    { id: "c3-4b91-8d36-dc1c6ef27611", name: "Piernas", description: "Ejercicios para cuadríceps e isquiotibiales" },
-    { id: "c4-4b91-8d36-dc1c6ef27611", name: "Cardio", description: "Ejercicios de alta intensidad cardiovascular" }
+    { id: "c1-34", name: "Pecho", description: "Ejercicios para pectoral mayor y menor" },
+    { id: "c2-56", name: "Espalda", description: "Ejercicios para dorsal ancho y trapecios" },
+    { id: "c3-78", name: "Piernas", description: "Ejercicios para cuadríceps e isquiotibiales" },
+    { id: "c4-91", name: "Cardio", description: "Ejercicios de alta intensidad cardiovascular" }
 ];
 
 // Cabeceras HTTP

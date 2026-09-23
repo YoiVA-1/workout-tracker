@@ -4,7 +4,7 @@ const router = express.Router();
 // Estado en memoria (simulación)
 let exercises = [
     {
-        id: "e101-4b91-8d36-dc1c6ef27611",
+        id: "e123",
         name: "Press de Banca Plano",
         description: "Ejercicio compuesto enfocado en el desarrollo del pectoral mayor y tríceps.",
         category: {

@@ -4,7 +4,7 @@ const router = express.Router();
 // Estado en memoria (simulación)
 let routines = [
     {
-        id: "r5-4b91-8d36-dc1c6ef27611",
+        id: "r543",
         user_id: "b42f53fa-7b30-4b91-8d36-dc1c6ef27611",
         name: "Rutina Torso-Pierna (Día A)",
         description: "Enfoque en fuerza e hipertrofia para el tren superior.",

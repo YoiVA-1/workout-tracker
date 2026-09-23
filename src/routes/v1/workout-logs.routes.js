@@ -4,7 +4,7 @@ const router = express.Router();
 // Estado en memoria (simulación)
 let workoutLogs = [
     {
-        id: "w501-4b91-8d36-dc1c6ef27611",
+        id: "w123",
         user_id: "b42f53fa-7b30-4b91-8d36-dc1c6ef27611",
         routine_id: "r5-4b91-8d36-dc1c6ef27611",
         date: "2026-09-18T18:30:00Z",
