@@ -1,18 +1,18 @@
 const express = require('express');
 const app = express();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 // Middlewares globales
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Importación de rutas desde src/routes/v1/
-const usersRouter = require('./src/routes/v1/users.routes');
-const exercisesRouter = require('./src/routes/v1/exercises.routes');
-const routinesRouter = require('./src/routes/v1/routines.routes');
-const workoutLogsRouter = require('./src/routes/v1/workout-logs.routes');
-const categoriesRouter = require('./src/routes/v1/categories.routes');
+const usersRouter = require('./v1/users.routes');
+const exercisesRouter = require('./v1/exercises.routes');
+const routinesRouter = require('./v1/routines.routes');
+const workoutLogsRouter = require('./v1/workout-logs.routes');
+const categoriesRouter = require('./v1/categories.routes');
 
 // Montaje de rutas
 app.use('/v1/users', usersRouter);
